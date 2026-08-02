@@ -1,0 +1,373 @@
+---
+import { SOURCE_CATALOG, TOOL_DEFINITIONS } from "../lib/decision/browser.mjs";
+import { text, type Locale } from "../i18n/locales";
+
+interface Props {
+  locale: Locale;
+  toolId: "what-it-means" | "does-it-apply" | "label-content";
+}
+
+const { locale, toolId } = Astro.props;
+const definition = TOOL_DEFINITIONS[toolId];
+const serialise = (value: unknown) => JSON.stringify(value).replaceAll("<", "\\u003c");
+---
+
+<section class="decision-tool" data-decision-tool={toolId}>
+  <div class="decision-progress" aria-live="polite" data-progress></div>
+
+  <div data-questions>
+    {definition.nodes.map((node) => (
+      <section class="question-screen" data-node-id={node.id} hidden>
+        <h2 tabindex="-1">{text(locale, node.questionKey)}</h2>
+        {node.id === "additional" && (
+          <p class="question-hint" data-additional-hint hidden></p>
+        )}
+        <p class="question-instruction">{text(locale, "decision.chooseOne")}</p>
+        <div class="choice-list">
+          {node.options.map((option) => (
+            <button
+              type="button"
+              class="choice-button"
+              data-answer-id={option.id}
+              data-next-id={option.nextId}
+            >
+              {text(locale, option.labelKey)}
+            </button>
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <section class="result-screen" data-result hidden aria-live="polite">
+    <p class="eyebrow">{text(locale, "decision.resultTitle")}</p>
+    <h2 tabindex="-1" data-result-status></h2>
+    <div class="result-panels" data-result-panels></div>
+  </section>
+
+  <div class="decision-actions">
+    <button type="button" class="button secondary" data-back hidden>{text(locale, "common.back")}</button>
+    <button type="button" class="button secondary" data-reset hidden>{text(locale, "common.reset")}</button>
+  </div>
+
+  <script type="application/json" data-definition set:html={serialise(definition)}></script>
+  <script type="application/json" data-locale set:html={serialise(locale)}></script>
+  <script type="application/json" data-sources set:html={serialise(SOURCE_CATALOG)}></script>
+</section>
+
+<script>
+  import { evaluateTool } from "../lib/decision/browser.mjs";
+
+  const memberStates = [
+    "AT", "BE", "BG", "HR", "CY", "CZ", "DK", "EE", "FI", "FR", "DE", "GR", "HU", "IE",
+    "IT", "LV", "LT", "LU", "MT", "NL", "PL", "PT", "RO", "SK", "SI", "ES", "SE"
+  ];
+  const authorityUrl = "https://digital-strategy.ec.europa.eu/en/policies/market-surveillance-authorities-under-ai-act";
+
+  document.querySelectorAll<HTMLElement>("[data-decision-tool]").forEach((root) => {
+    const toolId = root.dataset.decisionTool!;
+    const definition = readJson(root, "[data-definition]");
+    const locale = readJson(root, "[data-locale]");
+    const sources = readJson(root, "[data-sources]");
+    const answers: Record<string, string> = {};
+    const history: string[] = [];
+    let currentNodeId = definition.startNodeId;
+    let showingResult = false;
+
+    const progress = root.querySelector<HTMLElement>("[data-progress]")!;
+    const result = root.querySelector<HTMLElement>("[data-result]")!;
+    const panels = root.querySelector<HTMLElement>("[data-result-panels]")!;
+    const status = root.querySelector<HTMLElement>("[data-result-status]")!;
+    const back = root.querySelector<HTMLButtonElement>("[data-back]")!;
+    const reset = root.querySelector<HTMLButtonElement>("[data-reset]")!;
+
+    root.querySelectorAll<HTMLButtonElement>("[data-answer-id]").forEach((button) => {
+      button.addEventListener("click", () => {
+        answers[currentNodeId] = button.dataset.answerId!;
+        history.push(currentNodeId);
+        const destination = nextVisible(button.dataset.nextId!);
+        if (destination.startsWith("result:")) showResult();
+        else showQuestion(destination);
+      });
+    });
+
+    back.addEventListener("click", () => {
+      const previous = history.pop();
+      if (!previous) return;
+      delete answers[previous];
+      showingResult = false;
+      showQuestion(previous);
+    });
+
+    reset.addEventListener("click", () => {
+      for (const key of Object.keys(answers)) delete answers[key];
+      history.splice(0);
+      showingResult = false;
+      showQuestion(definition.startNodeId);
+    });
+
+    showQuestion(currentNodeId, false);
+
+    function showQuestion(nodeId: string, moveFocus = true) {
+      currentNodeId = nodeId;
+      showingResult = false;
+      result.hidden = true;
+      root.querySelectorAll<HTMLElement>("[data-node-id]").forEach((screen) => {
+        screen.hidden = screen.dataset.nodeId !== nodeId;
+      });
+      const screen = root.querySelector<HTMLElement>(`[data-node-id="${CSS.escape(nodeId)}"]`)!;
+      updateAdditionalHint(screen);
+      progress.textContent = format(t("decision.progress"), { current: history.length + 1, total: definition.nodes.length });
+      back.hidden = history.length === 0;
+      reset.hidden = history.length === 0;
+      if (moveFocus) requestAnimationFrame(() => screen.querySelector<HTMLElement>("h2")?.focus());
+    }
+
+    function showResult() {
+      showingResult = true;
+      root.querySelectorAll<HTMLElement>("[data-node-id]").forEach((screen) => { screen.hidden = true; });
+      result.hidden = false;
+      progress.textContent = t("decision.resultTitle");
+      back.hidden = history.length === 0;
+      reset.hidden = false;
+      try {
+        const evaluated = evaluateTool(toolId, answers);
+        status.textContent = t(evaluated.statusKey);
+        panels.replaceChildren(...renderResult(evaluated));
+      } catch {
+        status.textContent = t("decision.error");
+        panels.replaceChildren();
+      }
+      requestAnimationFrame(() => status.focus());
+    }
+
+    function nextVisible(initial: string): string {
+      let destination = initial;
+      const visited = new Set<string>();
+      while (!destination.startsWith("result:")) {
+        if (visited.has(destination)) throw new Error("Decision route loop");
+        visited.add(destination);
+        const node = definition.nodes.find((item: any) => item.id === destination);
+        if (!node) throw new Error(`Unknown decision node: ${destination}`);
+        if (!node.showWhen || matches(node.showWhen)) return destination;
+        destination = node.options[0].nextId;
+      }
+      return destination;
+    }
+
+    function matches(rule: any): boolean {
+      if (rule.questionId) return rule.answerIds.includes(answers[rule.questionId]);
+      if (rule.all) return rule.all.every(matches);
+      if (rule.any) return rule.any.some(matches);
+      return true;
+    }
+
+    function updateAdditionalHint(screen: HTMLElement) {
+      const hint = screen.querySelector<HTMLElement>("[data-additional-hint]");
+      if (!hint) return;
+      const key = answers.context === "pre_market_research_testing"
+        ? "tools.does-it-apply.additional.pre_market_research_testing"
+        : answers.intendedUse === "biometric_or_emotion"
+          ? "tools.does-it-apply.additional.biometric_or_emotion"
+          : undefined;
+      hint.hidden = !key;
+      hint.textContent = key ? t(key) : "";
+    }
+
+    function renderResult(evaluated: any): HTMLElement[] {
+      const output = [];
+      output.push(panel(t("common.yourAnswers"), history.map((questionId) => {
+        const question = t(`tools.${toolId}.questions.${questionId}`);
+        const option = t(`tools.${toolId}.options.${questionId}.${answers[questionId]}`);
+        return `${question}${t("decision.answerSeparator")}${option}`;
+      })));
+      output.push(panel(t("decision.why"), evaluated.detailIds.map(t)));
+      if (evaluated.personAskListKey) {
+        output.push(panel(t("decision.whatPersonCanAsk"), translatedList(evaluated.personAskListKey), "asks"));
+      }
+      if (evaluated.possibleRouteListKey) {
+        output.push(panel(t("decision.possibleRoutes"), translatedList(evaluated.possibleRouteListKey), "routes"));
+      }
+      output.push(panel(t("common.unknown"), evaluated.unknownIds.length ? evaluated.unknownIds.map(t) : [t("decision.noneUnknown")], "unknown"));
+      output.push(panel(t("common.role"), [t(evaluated.roleId)]));
+      output.push(datePanel(evaluated.dates));
+      output.push(sourcePanel(evaluated.sourceIds));
+      if (evaluated.duties?.length) output.push(dutiesPanel(evaluated.duties));
+      if (evaluated.optionalIcon?.available) output.push(iconPanel());
+      if (evaluated.penalty) output.push(penaltyPanel(evaluated.penalty));
+      output.push(panel(t("common.nextAction"), [t(evaluated.nextActionId)], "action"));
+      output.push(panel(t("common.humanDecision"), [humanDecision(evaluated)], "human"));
+      output.push(panel(t("common.notLegalAdvice"), [t(evaluated.disclaimerId)], "disclaimer"));
+      return output;
+    }
+
+    function panel(titleText: string, values: string[], kind = "standard"): HTMLElement {
+      const section = element("section", `result-panel result-panel-${kind}`);
+      section.append(element("h3", "", titleText));
+      const list = element("ul", "result-list");
+      for (const value of values) list.append(element("li", "", value));
+      section.append(list);
+      return section;
+    }
+
+    function datePanel(dates: any[]): HTMLElement {
+      const section = panel(t("common.when"), [], "date");
+      const list = section.querySelector("ul")!;
+      for (const date of dates) {
+        const label = t(date.id);
+        list.append(element("li", "", `${label}. ${t(date.stateKey)}`));
+      }
+      return section;
+    }
+
+    function sourcePanel(sourceIds: string[]): HTMLElement {
+      const section = panel(t("common.source"), [], "source");
+      const list = section.querySelector("ul")!;
+      for (const id of sourceIds) {
+        const source = sources[id];
+        if (!source) continue;
+        const item = element("li");
+        item.append(`${t(`authority.${source.authority}`)} — `);
+        const link = element("a", "", source.reference) as HTMLAnchorElement;
+        link.href = source.url;
+        link.rel = "external";
+        item.append(link);
+        list.append(item);
+      }
+      return section;
+    }
+
+    function dutiesPanel(duties: any[]): HTMLElement {
+      const section = panel(t("decision.duties"), [], "duties");
+      const list = section.querySelector("ul")!;
+      for (const duty of duties) {
+        const item = element("li");
+        item.append(element("strong", "", t(duty.channelId)), document.createTextNode(` — ${t(duty.explanationKey)}`));
+        if (duty.exampleKey) item.append(element("p", "example-wording", `${t("decision.exampleWording")}: “${t(duty.exampleKey)}”`));
+        list.append(item);
+      }
+      return section;
+    }
+
+    function iconPanel(): HTMLElement {
+      const section = panel(t("decision.optionalIconTitle"), [t("decision.optionalIconBody")], "icon");
+      const image = document.createElement("img");
+      image.src = "/images/eu-icons/ai-generated-black.svg";
+      image.alt = t("decision.optionalIconAlt");
+      image.width = 230;
+      image.height = 73;
+      section.prepend(image);
+      return section;
+    }
+
+    function penaltyPanel(penalty: any): HTMLElement {
+      const section = panel(t("decision.penalty"), [], "penalty");
+      const list = section.querySelector("ul")!;
+      list.append(element("li", "", `${t(penalty.regimeId)} — ${t(penalty.bandId)}`));
+      if (penalty.fixedAmountEur && penalty.turnoverPercent) {
+        list.append(element("li", "", format(t("decision.maximum"), {
+          amount: new Intl.NumberFormat(document.documentElement.lang).format(penalty.fixedAmountEur),
+          percent: penalty.turnoverPercent,
+          calculation: t(penalty.calculationRuleId)
+        })));
+      } else {
+        list.append(element("li", "", t("decision.noBand")));
+      }
+      for (const factor of penalty.factorIds) list.append(element("li", "", t(factor)));
+      section.append(
+        element("p", "small-note", t("result.ceilingBody")),
+        element("p", "small-note", t("result.noSafety")),
+      );
+      section.append(countryAuthorityControl());
+      const checker = element("a", "", t("tool2.officialChecker")) as HTMLAnchorElement;
+      checker.href = "https://ai-act-service-desk.ec.europa.eu/en/eu-ai-act-compliance-checker";
+      checker.rel = "external";
+      section.append(checker, element("p", "small-note", t("tool2.officialCheckerNote")));
+      return section;
+    }
+
+    function countryAuthorityControl(): HTMLElement {
+      const box = element("div", "country-control");
+      box.append(element("p", "", t("decision.nationalAuthority")));
+      const label = element("label");
+      label.append(element("span", "", t("decision.country")));
+      const select = document.createElement("select");
+      const unknown = new Option(t("decision.countryUnknown"), "");
+      select.add(unknown);
+      const names = new Intl.DisplayNames([document.documentElement.lang], { type: "region" });
+      for (const code of memberStates) select.add(new Option(names.of(code) ?? code, code));
+      label.append(select);
+      const link = element("a", "authority-link", t("decision.openAuthorityList")) as HTMLAnchorElement;
+      link.href = authorityUrl;
+      link.rel = "external";
+      select.addEventListener("change", () => {
+        const country = select.value ? names.of(select.value) ?? select.value : t("decision.countryUnknown");
+        link.textContent = format(t("decision.openAuthorityList"), { country });
+      });
+      select.dispatchEvent(new Event("change"));
+      box.append(label, link);
+      return box;
+    }
+
+    function humanDecision(evaluated: any): string {
+      return t("decision.humanDecisionBody");
+    }
+
+    function t(key: string): string {
+      const value = locale[key];
+      if (typeof value !== "string") throw new Error(`Missing translation: ${key}`);
+      return value;
+    }
+
+    function translatedList(key: string): string[] {
+      const value = locale[key];
+      if (!Array.isArray(value) || value.some((item) => typeof item !== "string")) {
+        throw new Error(`Missing translation list: ${key}`);
+      }
+      return value;
+    }
+  });
+
+  function readJson(root: HTMLElement, selector: string): any {
+    return JSON.parse(root.querySelector<HTMLScriptElement>(selector)!.textContent!);
+  }
+
+  function format(template: string, values: Record<string, string | number>): string {
+    return Object.entries(values).reduce((output, [key, value]) => output.replaceAll(`{${key}}`, String(value)), template);
+  }
+
+  function element(tag: string, className = "", value?: string): HTMLElement {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (value !== undefined) node.textContent = value;
+    return node;
+  }
+</script>
+
+<style>
+  .decision-tool { margin-top: 2.5rem; }
+  .decision-progress { min-height: 1.6rem; margin-bottom: 0.75rem; font-weight: 700; }
+  .question-screen, .result-screen { padding: clamp(1.2rem, 4vw, 2.2rem); border: 2px solid var(--ink); background: var(--white); box-shadow: var(--shadow); }
+  .question-screen h2, .result-screen h2 { max-width: 25ch; }
+  .question-instruction { color: #5c493c; }
+  .question-hint { padding: 0.8rem; border-left: 4px solid var(--link); background: var(--paper-deep); }
+  .choice-list { display: grid; gap: 0.75rem; }
+  .choice-button { width: 100%; min-height: 3.5rem; padding: 0.9rem 1rem; border: 1px solid var(--ink); color: var(--ink); background: var(--paper); text-align: left; cursor: pointer; }
+  .choice-button:hover { color: var(--accent-ink); background: var(--accent); box-shadow: 3px 3px 0 var(--ink); }
+  .decision-actions { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .result-panels { display: grid; gap: 1rem; }
+  .result-panel { padding: 1rem; border: 1px solid var(--line); background: var(--paper); }
+  .result-panel h3 { margin-bottom: 0.55rem; }
+  .result-list { margin-block: 0; padding-left: 1.2rem; }
+  .result-list li + li { margin-top: 0.45rem; }
+  .result-panel-unknown { border-left: 0.4rem solid #d97706; }
+  .result-panel-action { border-left: 0.4rem solid var(--link); }
+  .result-panel-human { border: 2px solid var(--ink); }
+  .result-panel-disclaimer { border-left: 0.4rem solid var(--danger); }
+  .result-panel-icon img { display: block; width: min(14.5rem, 100%); height: auto; margin-bottom: 0.8rem; }
+  .example-wording { margin: 0.5rem 0 0; padding: 0.65rem; background: var(--white); }
+  .country-control { display: grid; gap: 0.6rem; margin-block: 1rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+  .country-control label { display: grid; gap: 0.25rem; max-width: 24rem; font-weight: 700; }
+  .authority-link { justify-self: start; }
+  .small-note { margin-bottom: 0; font-size: 0.9rem; }
+</style>

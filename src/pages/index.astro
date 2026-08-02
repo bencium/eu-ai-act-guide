@@ -1,0 +1,43 @@
+---
+import { languages } from "../i18n/languages";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,follow" />
+    <meta name="description" content="Choose one of the EU's 24 official languages for The EU AI Act Guide." />
+    <title>Choose a language — The EU AI Act Guide</title>
+    <link rel="canonical" href="https://aiact.bencium.io/" />
+    {languages.map((language) => (
+      <link rel="alternate" hreflang={language.code} href={`https://aiact.bencium.io/${language.code}/`} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href="https://aiact.bencium.io/" />
+    <style>
+      body { max-width: 54rem; margin: 4rem auto; padding: 1rem; font-family: system-ui, sans-serif; line-height: 1.5; }
+      ul { columns: 2; padding-left: 1.25rem; }
+      a { color: #3108e3; }
+      @media (max-width: 32rem) { ul { columns: 1; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Choose your language</h1>
+      <p>The page will use your browser languages when JavaScript is available. This check stays in your browser and does not use your IP address.</p>
+      <ul>
+        {languages.map((language) => <li><a href={`/${language.code}/`}>{language.name}</a></li>)}
+      </ul>
+    </main>
+    <script is:inline define:vars={{ supported: languages.map((item) => item.code) }}>
+      let manual = null;
+      try { manual = sessionStorage.getItem("eu-ai-act-language"); } catch {}
+      const detected = navigator.languages
+        .map((value) => value.toLowerCase().split("-")[0])
+        .find((value) => supported.includes(value));
+      const selected = supported.includes(manual) ? manual : (detected ?? "en");
+      window.location.replace(`/${selected}/`);
+    </script>
+  </body>
+</html>

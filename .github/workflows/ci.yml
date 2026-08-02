@@ -1,0 +1,39 @@
+name: Verify website and reviewer skill
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Use the pinned active Node LTS release
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Install the locked dependency set
+        run: npm ci
+
+      - name: Run decision tests
+        run: npm test
+
+      - name: Rebuild and verify the reviewer-skill downloads
+        run: npm run package:skill
+
+      - name: Build and verify every static page
+        run: npm run build
+
+      - name: Verify the official source archive
+        run: node scripts/source/verify-archive.mjs

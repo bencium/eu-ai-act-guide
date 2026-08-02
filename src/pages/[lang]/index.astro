@@ -1,0 +1,22 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import GuideMainPage from "../../components/GuideMainPage.astro";
+import { languages, type LanguageCode } from "../../i18n/languages";
+import { getLocale, text } from "../../i18n/locales";
+
+export function getStaticPaths() {
+  return languages.map((language) => ({ params: { lang: language.code } }));
+}
+
+const lang = Astro.params.lang as LanguageCode;
+const locale = getLocale(lang);
+---
+
+<SiteLayout
+  lang={lang}
+  locale={locale}
+  title={text(locale, "home.metaTitle")}
+  description={text(locale, "home.metaDescription")}
+>
+  <GuideMainPage lang={lang} locale={locale} />
+</SiteLayout>

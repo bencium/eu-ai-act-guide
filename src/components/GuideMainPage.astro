@@ -1,0 +1,119 @@
+---
+import ToolPage from "./ToolPage.astro";
+import { routeFor, type LanguageCode } from "../i18n/languages";
+import { text, type Locale } from "../i18n/locales";
+
+type ToolId = "what-it-means" | "does-it-apply" | "label-content";
+
+interface Props {
+  lang: LanguageCode;
+  locale: Locale;
+  initialTool?: ToolId;
+}
+
+const { lang, locale, initialTool } = Astro.props;
+const tools: Array<{
+  id: ToolId;
+  number: string;
+  titleKey: string;
+  bodyKey: string;
+}> = [
+  {
+    id: "what-it-means",
+    number: "01",
+    titleKey: "home.tool1Title",
+    bodyKey: "home.tool1Body"
+  },
+  {
+    id: "does-it-apply",
+    number: "02",
+    titleKey: "home.tool2Title",
+    bodyKey: "home.tool2Body"
+  },
+  {
+    id: "label-content",
+    number: "03",
+    titleKey: "home.tool3Title",
+    bodyKey: "home.tool3Body"
+  }
+];
+---
+
+<div data-guide-main data-initial-tool={initialTool ?? ""}>
+  <section class="page-shell wide-shell">
+    <p class="eyebrow">{text(locale, "home.eyebrow")}</p>
+    <h1>{text(locale, "home.title")}</h1>
+    <p class="lede">{text(locale, "home.intro")}</p>
+    <p class="boundary-note">{text(locale, "home.boundary")}</p>
+
+    <nav id="tools" class="tool-grid" aria-label={text(locale, "common.tools")}>
+      {tools.map((tool) => (
+        <a
+          class="tool-card"
+          href={routeFor(lang, tool.id)}
+          data-tool-choice={tool.id}
+          aria-controls={`tool-panel-${tool.id}`}
+          aria-expanded={tool.id === initialTool ? "true" : "false"}
+        >
+          <span class="tool-number">{tool.number}</span>
+          <h2>{text(locale, tool.titleKey)}</h2>
+          <p>{text(locale, tool.bodyKey)}</p>
+        </a>
+      ))}
+    </nav>
+  </section>
+
+  {tools.map((tool) => (
+    <section
+      id={`tool-panel-${tool.id}`}
+      data-tool-panel={tool.id}
+      hidden={initialTool ? tool.id !== initialTool : undefined}
+    >
+      <ToolPage lang={lang} locale={locale} toolId={tool.id} embedded />
+    </section>
+  ))}
+</div>
+
+<script is:inline define:vars={{ homePath: routeFor(lang), initialTool }}>
+  const guide = document.querySelector("[data-guide-main]");
+  const choices = [...(guide?.querySelectorAll("[data-tool-choice]") ?? [])];
+  const panels = [...(guide?.querySelectorAll("[data-tool-panel]") ?? [])];
+  const supportedTools = new Set(choices.map((choice) => choice.dataset.toolChoice));
+  const requestedTool = new URLSearchParams(window.location.search).get("tool");
+  const firstTool = supportedTools.has(requestedTool)
+    ? requestedTool
+    : (supportedTools.has(initialTool) ? initialTool : null);
+
+  showTool(firstTool, false);
+
+  for (const choice of choices) {
+    choice.addEventListener("click", (event) => {
+      const toolId = choice.dataset.toolChoice;
+      if (!supportedTools.has(toolId)) return;
+      event.preventDefault();
+      const nextUrl = new URL(homePath, window.location.origin);
+      nextUrl.searchParams.set("tool", toolId);
+      nextUrl.hash = "tools";
+      window.history.pushState({ toolId }, "", nextUrl);
+      showTool(toolId, true);
+    });
+  }
+
+  window.addEventListener("popstate", () => {
+    const toolId = new URLSearchParams(window.location.search).get("tool");
+    showTool(supportedTools.has(toolId) ? toolId : null, false);
+  });
+
+  function showTool(toolId, moveFocus) {
+    for (const choice of choices) {
+      choice.setAttribute("aria-expanded", String(choice.dataset.toolChoice === toolId));
+    }
+    for (const panel of panels) {
+      const selected = panel.dataset.toolPanel === toolId;
+      panel.hidden = !selected;
+      if (selected && moveFocus) {
+        requestAnimationFrame(() => panel.querySelector("[data-tool-heading]")?.focus());
+      }
+    }
+  }
+</script>

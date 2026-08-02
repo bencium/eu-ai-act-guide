@@ -1,0 +1,24 @@
+---
+import { list, text, type Locale } from "../i18n/locales";
+
+interface Props {
+  locale: Locale;
+  prefix: "terms" | "privacy" | "disclaimer";
+}
+
+const { locale, prefix } = Astro.props;
+---
+
+<article class="page-shell">
+  <p class="eyebrow">{text(locale, "common.independent")} {text(locale, "common.notLegalAdvice")}</p>
+  <h1>{text(locale, `${prefix}.title`)}</h1>
+  {prefix !== "disclaimer" && <p class="lede">{text(locale, `${prefix}.updated`)}</p>}
+  <ol class="content-sections">
+    {list(locale, `${prefix}.sections`).map((paragraph) => <li><p>{paragraph}</p></li>)}
+  </ol>
+  {prefix === "privacy" && (
+    <p class="content-block">
+      <a href="https://vercel.com/legal/privacy-notice" rel="external">{text(locale, "privacy.vercelLink")}</a>
+    </p>
+  )}
+</article>

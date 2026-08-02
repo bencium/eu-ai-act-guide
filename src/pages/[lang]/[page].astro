@@ -1,0 +1,54 @@
+---
+import AboutPage from "../../components/AboutPage.astro";
+import GuideMainPage from "../../components/GuideMainPage.astro";
+import LegalPage from "../../components/LegalPage.astro";
+import OpenSourcePage from "../../components/OpenSourcePage.astro";
+import SkillPage from "../../components/SkillPage.astro";
+import SourcesPage from "../../components/SourcesPage.astro";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import { languages, pageSlugs, type LanguageCode, type PageSlug } from "../../i18n/languages";
+import { getLocale, text } from "../../i18n/locales";
+
+export function getStaticPaths() {
+  return languages.flatMap((language) => pageSlugs.map((page) => ({
+    params: { lang: language.code, page }
+  })));
+}
+
+const lang = Astro.params.lang as LanguageCode;
+const page = Astro.params.page as PageSlug;
+const locale = getLocale(lang);
+
+const prefixes: Record<PageSlug, string> = {
+  "what-it-means": "tool1",
+  "does-it-apply": "tool2",
+  "label-content": "tool3",
+  "sources": "sources",
+  "skill": "skill",
+  "about": "about",
+  "terms": "terms",
+  "privacy-cookies": "privacy",
+  "disclaimer": "disclaimer",
+  "open-source": "openSource"
+};
+const prefix = prefixes[page];
+---
+
+<SiteLayout
+  lang={lang}
+  locale={locale}
+  slug={page}
+  title={text(locale, `${prefix}.metaTitle`)}
+  description={text(locale, `${prefix}.metaDescription`)}
+>
+  {page === "sources" && <SourcesPage locale={locale} />}
+  {page === "skill" && <SkillPage locale={locale} />}
+  {page === "about" && <AboutPage locale={locale} />}
+  {page === "terms" && <LegalPage locale={locale} prefix="terms" />}
+  {page === "privacy-cookies" && <LegalPage locale={locale} prefix="privacy" />}
+  {page === "disclaimer" && <LegalPage locale={locale} prefix="disclaimer" />}
+  {page === "open-source" && <OpenSourcePage locale={locale} />}
+  {page === "what-it-means" && <GuideMainPage lang={lang} locale={locale} initialTool="what-it-means" />}
+  {page === "does-it-apply" && <GuideMainPage lang={lang} locale={locale} initialTool="does-it-apply" />}
+  {page === "label-content" && <GuideMainPage lang={lang} locale={locale} initialTool="label-content" />}
+</SiteLayout>

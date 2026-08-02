@@ -1,0 +1,473 @@
+{
+  "schema_version": 1,
+  "snapshot": {
+    "created_at_utc": "2026-08-02T17:45:43Z",
+    "legal_source_cutoff": "2026-08-02",
+    "purpose": "Shared official-source register for The EU AI Act Guide website and eu-ai-act-reviewer skill.",
+    "policy": {
+      "official_sources_control": true,
+      "no_home_made_official_consolidation": true,
+      "monitoring_requires_human_review": true,
+      "automatic_legal_explanation_updates": false
+    },
+    "allowlisted_query_hosts": [
+      "data.europa.eu",
+      "digital-strategy.ec.europa.eu",
+      "ec.europa.eu",
+      "eur-lex.europa.eu",
+      "publications.europa.eu"
+    ]
+  },
+  "official_language_expressions": [
+    { "eu_code": "BG", "eli_language": "bul", "name_en": "Bulgarian" },
+    { "eu_code": "ES", "eli_language": "spa", "name_en": "Spanish" },
+    { "eu_code": "CS", "eli_language": "ces", "name_en": "Czech" },
+    { "eu_code": "DA", "eli_language": "dan", "name_en": "Danish" },
+    { "eu_code": "DE", "eli_language": "deu", "name_en": "German" },
+    { "eu_code": "ET", "eli_language": "est", "name_en": "Estonian" },
+    { "eu_code": "EL", "eli_language": "ell", "name_en": "Greek" },
+    { "eu_code": "EN", "eli_language": "eng", "name_en": "English" },
+    { "eu_code": "FR", "eli_language": "fra", "name_en": "French" },
+    { "eu_code": "GA", "eli_language": "gle", "name_en": "Irish" },
+    { "eu_code": "HR", "eli_language": "hrv", "name_en": "Croatian" },
+    { "eu_code": "IT", "eli_language": "ita", "name_en": "Italian" },
+    { "eu_code": "LV", "eli_language": "lav", "name_en": "Latvian" },
+    { "eu_code": "LT", "eli_language": "lit", "name_en": "Lithuanian" },
+    { "eu_code": "HU", "eli_language": "hun", "name_en": "Hungarian" },
+    { "eu_code": "MT", "eli_language": "mlt", "name_en": "Maltese" },
+    { "eu_code": "NL", "eli_language": "nld", "name_en": "Dutch" },
+    { "eu_code": "PL", "eli_language": "pol", "name_en": "Polish" },
+    { "eu_code": "PT", "eli_language": "por", "name_en": "Portuguese" },
+    { "eu_code": "RO", "eli_language": "ron", "name_en": "Romanian" },
+    { "eu_code": "SK", "eli_language": "slk", "name_en": "Slovak" },
+    { "eu_code": "SL", "eli_language": "slv", "name_en": "Slovenian" },
+    { "eu_code": "FI", "eli_language": "fin", "name_en": "Finnish" },
+    { "eu_code": "SV", "eli_language": "swe", "name_en": "Swedish" }
+  ],
+  "official_language_link_templates": {
+    "html": "https://data.europa.eu/eli/reg/2024/1689/oj/{eli_language}/html",
+    "authentic_oj_pdf": "https://data.europa.eu/eli/reg/2024/1689/oj/{eli_language}/pdf"
+  },
+  "sources": [
+    {
+      "id": "base-act",
+      "title": "Regulation (EU) 2024/1689 (Artificial Intelligence Act), original Official Journal text",
+      "category": "binding_law",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_original_official_journal_text",
+      "language": "multilingual; archived structured and authentic expressions are English",
+      "publication_date": "2024-07-12",
+      "effective_or_application_dates": ["2024-08-01", "2026-08-02", "2026-12-02", "2027-12-02", "2028-08-02"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "base act",
+      "affected_languages": ["BG", "ES", "CS", "DA", "DE", "ET", "EL", "EN", "FR", "GA", "HR", "IT", "LV", "LT", "HU", "MT", "NL", "PL", "PT", "RO", "SK", "SL", "FI", "SV"],
+      "legal_references": ["Regulation (EU) 2024/1689", "Recitals 1–180", "Articles 1–113", "Annexes I–XIII"],
+      "url": "https://data.europa.eu/eli/reg/2024/1689/oj",
+      "alternate_urls": [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ%3AL_202401689",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32024R1689"
+      ],
+      "identifiers": {
+        "celex": "32024R1689",
+        "official_journal": "L_202401689",
+        "eli": "http://data.europa.eu/eli/reg/2024/1689/oj",
+        "cellar_work": "dc8116a1-3fe6-11ef-865a-01aa75ed71a1"
+      },
+      "dates": {
+        "document_date": "2024-06-13",
+        "published": "2024-07-12",
+        "entered_into_force": "2024-08-01",
+        "original_general_application_date": "2026-08-02"
+      },
+      "affected_by_source_ids": [
+        "corrigendum-2025-10-09",
+        "corrigendum-2025-12-19",
+        "corrigendum-2026-03-27",
+        "corrigendum-2026-05-04",
+        "amendment-2026-1744"
+      ],
+      "monitor": [
+        {
+          "id": "current-work-record",
+          "url": "https://data.europa.eu/eli/reg/2024/1689",
+          "mode": "semantic_html_sha256",
+          "expected_content_type": "text/html",
+          "expected_semantic_sha256": "b4f8fd1e344830433d7715ecd56b35ebf8f216660a95fcdb1818297e6e4bf231",
+          "required_markers": ["32024R1689", "2026/1744"]
+        },
+        {
+          "id": "english-xhtml",
+          "url": "https://data.europa.eu/eli/reg/2024/1689/oj/eng/html",
+          "mode": "semantic_html_sha256",
+          "expected_content_type": "text/html",
+          "expected_semantic_sha256": "d07bfc4584e4c4fb769989ea4f2fce4299fe15109703cb499f376716476bff26",
+          "expected_structure": { "recitals": 180, "articles": 113, "annexes": 13 },
+          "required_markers": ["REGULATION (EU) 2024/1689", "id=\"art_50\"", "id=\"art_113\"", "id=\"anx_XIII\""]
+        },
+        {
+          "id": "authentic-english-oj-pdf",
+          "url": "https://data.europa.eu/eli/reg/2024/1689/oj/eng/pdf",
+          "mode": "exact_sha256",
+          "expected_content_type": "application/pdf",
+          "expected_sha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e"
+        }
+      ]
+    },
+    {
+      "id": "corrigendum-2025-10-09",
+      "title": "Corrigendum to Regulation (EU) 2024/1689 published 9 October 2025",
+      "category": "binding_corrigendum",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_language_specific_correction",
+      "language": "language-specific multilingual corrigendum",
+      "publication_date": "2025-10-09",
+      "effective_or_application_dates": ["2025-10-09"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "corrects specified language expressions of the base act",
+      "legal_references": ["Regulation (EU) 2024/1689", "CELEX 32024R1689R(01)"],
+      "url": "https://data.europa.eu/eli/reg/2024/1689/corrigendum/2025-10-09/oj",
+      "identifiers": {
+        "celex": "32024R1689R(01)",
+        "official_journal": "L_202590802",
+        "eli": "http://data.europa.eu/eli/reg/2024/1689/corrigendum/2025-10-09/oj"
+      },
+      "dates": { "published": "2025-10-09" },
+      "affects_source_id": "base-act",
+      "affected_languages": ["ES", "DE", "FR", "GA", "LT", "HU", "SK", "SL", "SV"],
+      "monitor": {
+        "id": "official-record",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "6fae58c5b38ea3337cb1771087f7ef182fe15d4d58444d104bafb0c951b6696f",
+        "required_markers": ["32024R1689R(01)", "9.10.2025"]
+      }
+    },
+    {
+      "id": "corrigendum-2025-12-19",
+      "title": "Corrigendum to Regulation (EU) 2024/1689 published 19 December 2025",
+      "category": "binding_corrigendum",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_language_specific_correction",
+      "language": "language-specific multilingual corrigendum",
+      "publication_date": "2025-12-19",
+      "effective_or_application_dates": ["2025-12-19"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "corrects specified language expressions of the base act",
+      "legal_references": ["Regulation (EU) 2024/1689", "CELEX 32024R1689R(02)"],
+      "url": "https://data.europa.eu/eli/reg/2024/1689/corrigendum/2025-12-19/oj",
+      "identifiers": {
+        "celex": "32024R1689R(02)",
+        "official_journal": "L_202591038",
+        "eli": "http://data.europa.eu/eli/reg/2024/1689/corrigendum/2025-12-19/oj"
+      },
+      "dates": { "published": "2025-12-19" },
+      "affects_source_id": "base-act",
+      "affected_languages": ["NL", "SL"],
+      "monitor": {
+        "id": "official-record",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "ff87f446afd463d27791fc407be2a313855c0370de8d781262e78c97e09d98a4",
+        "required_markers": ["32024R1689R(02)", "19.12.2025"]
+      }
+    },
+    {
+      "id": "corrigendum-2026-03-27",
+      "title": "Corrigendum to Regulation (EU) 2024/1689 published 27 March 2026",
+      "category": "binding_corrigendum",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_language_specific_correction",
+      "language": "Czech",
+      "publication_date": "2026-03-27",
+      "effective_or_application_dates": ["2026-03-27"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "corrects the Czech expression of the base act",
+      "legal_references": ["Regulation (EU) 2024/1689", "CELEX 32024R1689R(03)"],
+      "url": "https://data.europa.eu/eli/reg/2024/1689/corrigendum/2026-03-27/oj",
+      "identifiers": {
+        "celex": "32024R1689R(03)",
+        "official_journal": "L_202690258",
+        "eli": "http://data.europa.eu/eli/reg/2024/1689/corrigendum/2026-03-27/oj"
+      },
+      "dates": { "published": "2026-03-27" },
+      "affects_source_id": "base-act",
+      "affected_languages": ["CS"],
+      "monitor": {
+        "id": "official-record",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "894d0fead13f6ab0f64657170c42e850ddad147952e7f085981ad237d596d911",
+        "required_markers": ["32024R1689R(03)", "27.3.2026"]
+      }
+    },
+    {
+      "id": "corrigendum-2026-05-04",
+      "title": "Corrigendum to Regulation (EU) 2024/1689 published 4 May 2026",
+      "category": "binding_corrigendum",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_language_specific_correction",
+      "language": "Spanish and Dutch",
+      "publication_date": "2026-05-04",
+      "effective_or_application_dates": ["2026-05-04"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "corrects the Spanish and Dutch expressions of the base act",
+      "legal_references": ["Regulation (EU) 2024/1689", "CELEX 32024R1689R(04)"],
+      "url": "https://data.europa.eu/eli/reg/2024/1689/corrigendum/2026-05-04/oj",
+      "identifiers": {
+        "celex": "32024R1689R(04)",
+        "official_journal": "L_202690343",
+        "eli": "http://data.europa.eu/eli/reg/2024/1689/corrigendum/2026-05-04/oj"
+      },
+      "dates": { "published": "2026-05-04" },
+      "affects_source_id": "base-act",
+      "affected_languages": ["ES", "NL"],
+      "monitor": {
+        "id": "official-record",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "d6c1b10a4175053869a4401dee4c8db4e4b5371c52c954ae4b15df9a2664bc81",
+        "required_markers": ["32024R1689R(04)", "4.5.2026"]
+      }
+    },
+    {
+      "id": "amendment-2026-1744",
+      "title": "Regulation (EU) 2026/1744 (Digital Omnibus on AI), amending Regulation (EU) 2024/1689",
+      "category": "binding_amendment",
+      "source_authority": "Official Journal of the European Union, published by the Publications Office of the European Union",
+      "legal_weight": "binding_amending_regulation",
+      "language": "multilingual; monitored expression is English",
+      "publication_date": "2026-07-24",
+      "effective_or_application_dates": ["2026-07-27", "2026-08-02", "2026-12-02", "2027-12-02", "2028-08-02"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "amends the base act",
+      "affected_languages": ["BG", "ES", "CS", "DA", "DE", "ET", "EL", "EN", "FR", "GA", "HR", "IT", "LV", "LT", "HU", "MT", "NL", "PL", "PT", "RO", "SK", "SL", "FI", "SV"],
+      "legal_references": ["Regulation (EU) 2026/1744", "Article 1", "Article 3", "Regulation (EU) 2024/1689 Articles 5, 50, 99, 111 and 113"],
+      "url": "https://data.europa.eu/eli/reg/2026/1744/oj",
+      "english_html_url": "https://data.europa.eu/eli/reg/2026/1744/oj/eng/html",
+      "english_authentic_oj_pdf_url": "https://data.europa.eu/eli/reg/2026/1744/oj/eng/pdf",
+      "identifiers": {
+        "celex": "32026R1744",
+        "official_journal": "L_202601744",
+        "eli": "http://data.europa.eu/eli/reg/2026/1744/oj"
+      },
+      "dates": {
+        "document_date": "2026-07-08",
+        "published": "2026-07-24",
+        "entered_into_force": "2026-07-27"
+      },
+      "affects_source_id": "base-act",
+      "affected_application_dates": [
+        { "date": "2026-07-27", "effect": "Articles 102 to 110 apply." },
+        { "date": "2026-08-02", "effect": "General application date, including Article 50 transparency obligations." },
+        { "date": "2026-12-02", "effect": "New Article 5 provisions specified by amended Article 113 apply; providers of synthetic-content systems placed on the market before 2 August 2026 must comply with Article 50(2)." },
+        { "date": "2027-12-02", "effect": "Chapter III Sections 1, 2 and 3, except Article 6(5), apply to high-risk systems under Article 6(2) and Annex III." },
+        { "date": "2028-08-02", "effect": "Chapter III Sections 1, 2 and 3, except Article 6(5), apply to high-risk systems under Article 6(1) and Annex I." }
+      ],
+      "monitor": {
+        "id": "english-official-journal-html",
+        "url": "https://data.europa.eu/eli/reg/2026/1744/oj/eng/html",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "0f53e15f8a27b6a3d01810d261ed6e3b8d96c2d2c61decb46033449feba61de7",
+        "required_markers": ["REGULATION (EU) 2026/1744", "Article 50", "2 December 2027", "2 August 2028"]
+      }
+    },
+    {
+      "id": "final-guidelines-article-50",
+      "title": "Guidelines on the implementation of the transparency obligations for certain AI systems under Article 50 of the AI Act",
+      "category": "official_guidance",
+      "source_authority": "European Commission, Directorate-General for Communications Networks, Content and Technology",
+      "legal_weight": "official_non_binding_guidance",
+      "language": "English",
+      "publication_date": "2026-07-20",
+      "effective_or_application_dates": ["2026-08-02"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "non-binding official guidance interpreting Article 50",
+      "affected_languages": ["ALL"],
+      "legal_references": ["Regulation (EU) 2024/1689 Article 50"],
+      "url": "https://digital-strategy.ec.europa.eu/en/library/guidelines-transparency-obligations-providers-and-deployers-ai-systems",
+      "related_downloads": [
+        {
+          "title": "Final Article 50 guidelines",
+          "url": "https://ec.europa.eu/newsroom/dae/redirection/document/131215"
+        },
+        {
+          "title": "Commission communication approving the content of the guidelines",
+          "url": "https://ec.europa.eu/newsroom/dae/redirection/document/131214"
+        }
+      ],
+      "dates": {
+        "published": "2026-07-20",
+        "page_last_updated": "2026-07-31",
+        "article_50_application": "2026-08-02"
+      },
+      "monitor": {
+        "id": "official-page",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "7e68d8a353b33620fbd3665b9ad2601d55a3228040803449a810ed4ef2e1206d",
+        "required_markers": ["Guidelines on transparency obligations for providers and deployers of AI systems", "Article 50", "2 August 2026"]
+      }
+    },
+    {
+      "id": "voluntary-code-article-50",
+      "title": "Code of Practice on Transparency of AI-generated Content",
+      "category": "voluntary_code",
+      "source_authority": "European Commission AI Office and Directorate-General for Communications Networks, Content and Technology",
+      "legal_weight": "voluntary_code_assessed_as_adequate_not_binding_law",
+      "language": "English",
+      "publication_date": "2026-06-10",
+      "effective_or_application_dates": ["2026-08-02"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "voluntary implementation code supporting Article 50(2), (4) and (5)",
+      "affected_languages": ["ALL"],
+      "legal_references": ["Regulation (EU) 2024/1689 Article 50(2), (4) and (5)"],
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/code-practice-ai-generated-content",
+      "related_downloads": [
+        {
+          "title": "Final Code of Practice on Transparency of AI-generated Content",
+          "url": "https://ec.europa.eu/newsroom/dae/redirection/document/129555"
+        }
+      ],
+      "dates": {
+        "page_last_updated": "2026-07-31",
+        "article_50_application": "2026-08-02"
+      },
+      "monitor": {
+        "id": "official-page",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "7add0773ae409090864c16229fe08548aa6323b0dc356a7453d044f89b9bb42b",
+        "required_markers": ["Code of Practice on Transparency of AI-generated Content", "adherence to the code is voluntary", "Article 50"]
+      }
+    },
+    {
+      "id": "optional-icons",
+      "title": "EU Icons for labelling AI-generated content",
+      "category": "optional_official_asset",
+      "source_authority": "European Commission AI Office and Directorate-General for Communications Networks, Content and Technology",
+      "legal_weight": "optional_asset_does_not_establish_compliance",
+      "language": "English acronym with multilingual accompanying text supported",
+      "publication_date": null,
+      "effective_or_application_dates": ["2026-08-02"],
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "last_verified_at_utc": "2026-08-02T17:45:43Z",
+      "byte_size": null,
+      "sha256": null,
+      "relationship_to_base_act": "optional official communication asset supporting Article 50 disclosures",
+      "affected_languages": ["ALL"],
+      "legal_references": ["Regulation (EU) 2024/1689 Article 50"],
+      "url": "https://digital-strategy.ec.europa.eu/en/policies/eu-icons-labelling-ai-generated-content",
+      "related_downloads": [
+        {
+          "title": "EU icons in SVG format",
+          "url": "https://ec.europa.eu/newsroom/dae/redirection/document/129546"
+        },
+        {
+          "title": "EU icons in PNG format",
+          "url": "https://ec.europa.eu/newsroom/dae/redirection/document/129547"
+        }
+      ],
+      "dates": {
+        "page_last_updated": "2026-07-20",
+        "article_50_application": "2026-08-02"
+      },
+      "licence_note": "The official page states that the icons may be used freely without attribution; use does not signal adherence to the voluntary code and does not establish legal compliance by itself.",
+      "monitor": {
+        "id": "official-page",
+        "mode": "semantic_html_sha256",
+        "expected_content_type": "text/html",
+        "expected_semantic_sha256": "99d29478f4c053f43b71e0edb5e387f85b3bbe9bf3f280dbf65e41bcdbd396f8",
+        "required_markers": ["EU Icons for labelling AI-generated content", "use of these EU icons is optional", "Article 50"]
+      }
+    }
+  ],
+  "archive_artifacts": [
+    {
+      "id": "base-act-authentic-english-oj-pdf",
+      "source_id": "base-act",
+      "title": "Authentic English Official Journal PDF",
+      "official_url": "https://data.europa.eu/eli/reg/2024/1689/oj/eng/pdf",
+      "local_path": "sources/original/2024-1689/regulation-eu-2024-1689-oj-eng.pdf",
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "bytes": 2583319,
+      "sha256": "bba630444b3278e881066774002a1d7824308934f49ccfa203e65be43692f55e",
+      "reported_media_type": "application/pdf",
+      "verification": { "format": "pdf" }
+    },
+    {
+      "id": "base-act-official-english-xhtml",
+      "source_id": "base-act",
+      "title": "Official English XHTML legal body",
+      "official_url": "https://data.europa.eu/eli/reg/2024/1689/oj/eng/html",
+      "local_path": "sources/original/2024-1689/regulation-eu-2024-1689-oj-eng.xhtml",
+      "retrieved_at_utc": "2026-08-02T17:45:43Z",
+      "bytes": 1264549,
+      "sha256": "cbb19c4e24ae666ba2dcf34b28191e3f5f56e21c2dc511ca1e3b442c1d2a0912",
+      "reported_media_type": "text/html",
+      "detected_format": "official EUR-Lex XHTML-labelled HTML with an XML declaration; the delivered markup is not strict XML-well-formed",
+      "verification": {
+        "format": "xhtml",
+        "expected_structure": { "recitals": 180, "articles": 113, "annexes": 13 }
+      }
+    },
+    {
+      "id": "base-act-cellar-branch-notice",
+      "source_id": "base-act",
+      "title": "English CELLAR branch metadata notice",
+      "official_url": "https://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1?language=eng",
+      "official_identifier": "http://publications.europa.eu/resource/cellar/dc8116a1-3fe6-11ef-865a-01aa75ed71a1",
+      "local_path": "sources/original/2024-1689/cellar-branch-notice-eng.xml",
+      "retrieved_at_utc": "2026-08-02T19:20:52Z",
+      "archived_at_utc": "2026-08-02T17:45:43Z",
+      "retrieval_note": "The pre-existing workspace file was preserved unchanged. A fresh official CELLAR branch-notice download at this timestamp was byte-for-byte identical; the original file's earlier retrieval time remains unavailable.",
+      "bytes": 1446323,
+      "sha256": "0b5463b04dbf9f4cbb487e5e6ab74a7d1aa352da85e880775c7fdee4a4974a79",
+      "detected_format": "well-formed CELLAR branch metadata XML; it contains no recitals, articles or annexes",
+      "verification": {
+        "format": "cellar-notice-xml",
+        "preserved_copy_of": "cellar_dc8116a1-3fe6-11ef-865a-01aa75ed71a1.xml"
+      }
+    },
+    {
+      "id": "optional-icons-ai-generated-black-svg",
+      "source_id": "optional-icons",
+      "title": "Official optional AI + GENERATED black SVG icon",
+      "official_url": "https://ec.europa.eu/newsroom/dae/redirection/document/129546",
+      "local_path": "public/images/eu-icons/ai-generated-black.svg",
+      "retrieved_at_utc": "2026-08-02T18:12:00Z",
+      "bytes": 6500,
+      "sha256": "503af176b05fd725e68b0aa526977d31bcd657d74b15c6103a57ace81384940f",
+      "reported_media_type": "image/svg+xml inside the official SVG archive",
+      "verification": {
+        "format": "official-optional-svg",
+        "archive_sha256": "5b58f85c91fec7c8ec201a0a2bfc367c2823e6031ae034e64a16024e27aea99f",
+        "archive_bytes": 20941
+      }
+    }
+  ]
+}
