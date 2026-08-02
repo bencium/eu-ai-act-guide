@@ -1,0 +1,90 @@
+name: Monitor official EU sources
+
+on:
+  schedule:
+    - cron: "17 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: official-eu-source-monitor
+  cancel-in-progress: false
+
+jobs:
+  monitor:
+    name: Check for source changes requiring human review
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Use the pinned active Node LTS release
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Verify the archived files and public register copy
+        run: node scripts/source/verify-archive.mjs
+
+      - name: Query allowlisted official EU sources
+        id: source_check
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          node scripts/source/monitor-official-sources.mjs \
+            --report "$RUNNER_TEMP/source-monitor-report.json" \
+            | tee "$RUNNER_TEMP/source-monitor-summary.md"
+
+      - name: Add the result to the workflow summary
+        if: always()
+        shell: bash
+        run: cat "$RUNNER_TEMP/source-monitor-summary.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the read-only monitor report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: official-eu-source-monitor-report
+          path: |
+            ${{ runner.temp }}/source-monitor-report.json
+            ${{ runner.temp }}/source-monitor-summary.md
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Create or update the single legal-source-change issue
+        if: steps.source_check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh label create "legal-source-change" \
+            --description "An official EU AI Act source needs human review" \
+            --color "B60205" \
+            --force
+          issue_number="$(gh issue list \
+            --state open \
+            --label "legal-source-change" \
+            --json number \
+            --jq '.[0].number')"
+          if [ -n "$issue_number" ]; then
+            gh issue edit "$issue_number" \
+              --title "Official EU AI Act source changed — human review required" \
+              --body-file "$RUNNER_TEMP/source-monitor-summary.md"
+          else
+            gh issue create \
+              --title "Official EU AI Act source changed — human review required" \
+              --label "legal-source-change" \
+              --body-file "$RUNNER_TEMP/source-monitor-summary.md"
+          fi
+
+      - name: Require human review when an official source changes
+        if: steps.source_check.outcome == 'failure'
+        run: |
+          echo "An official source changed or became unavailable. Review the report; do not update legal explanations automatically."
+          exit 1

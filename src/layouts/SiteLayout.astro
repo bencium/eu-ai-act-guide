@@ -1,0 +1,146 @@
+---
+import "../styles/global.css";
+import { languages, officialActUrl, routeFor, type LanguageCode } from "../i18n/languages";
+import type { Locale } from "../i18n/locales";
+import { text } from "../i18n/locales";
+
+interface Props {
+  lang: LanguageCode;
+  locale: Locale;
+  title: string;
+  description: string;
+  slug?: string;
+}
+
+const { lang, locale, title, description, slug = "" } = Astro.props;
+const canonicalPath = routeFor(lang, slug);
+const canonical = new URL(canonicalPath, Astro.site);
+const metaDescription = lang === "en"
+  ? description
+  : `${description} ${text(locale, "meta.translationWarning")}`;
+const selectedLanguage = languages.find((item) => item.code === lang);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={metaDescription} />
+    <meta name="theme-color" content="#f8f7f3" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="canonical" href={canonical} />
+    {languages.map((language) => (
+      <link
+        rel="alternate"
+        hreflang={language.code}
+        href={new URL(routeFor(language.code, slug), Astro.site)}
+      />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site)} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body data-language={lang} data-page-slug={slug}>
+    <a class="skip-link" href="#main-content">{text(locale, "common.skipToContent")}</a>
+
+    <header class="site-header">
+      <div class="identity-row wrap">
+        <a class="brand" href={routeFor(lang)} aria-label={`${text(locale, "common.siteName")} — ${text(locale, "common.home")}`}>
+          <img src="/images/bencium-horizontal.svg" alt="Bencium" width="141" height="31" />
+          <span aria-hidden="true" class="brand-divider"></span>
+          <span class="guide-name">{text(locale, "common.siteName")}</span>
+        </a>
+
+        <label class="language-control">
+          <span>{text(locale, "common.chooseLanguage")}</span>
+          <select id="language-select" autocomplete="off">
+            {languages.map((language) => (
+              <option value={language.code} selected={language.code === lang}>{language.name}</option>
+            ))}
+          </select>
+        </label>
+      </div>
+
+      <nav class="primary-nav wrap" aria-label={text(locale, "common.primaryNavigation")}>
+        <a href={routeFor(lang)} aria-current={slug === "" ? "page" : undefined}>{text(locale, "common.home")}</a>
+        <a href={`${routeFor(lang)}#tools`} aria-current={["what-it-means", "does-it-apply", "label-content"].includes(slug) ? "page" : undefined}>{text(locale, "common.tools")}</a>
+        <a href={routeFor(lang, "sources")} aria-current={slug === "sources" ? "page" : undefined}>{text(locale, "common.sources")}</a>
+        <a href={routeFor(lang, "skill")} aria-current={slug === "skill" ? "page" : undefined}>{text(locale, "common.skill")}</a>
+      </nav>
+
+      <div class="trust-strip">
+        <div class="wrap trust-strip-inner">
+          <strong>{text(locale, "common.independent")}</strong>
+          <span>{text(locale, "common.notOfficial")}</span>
+          <span>{text(locale, "common.notLegalAdvice")}</span>
+          <span>{text(locale, "common.sourceChecked")}</span>
+          <a href={officialActUrl(lang)} rel="external">{text(locale, "common.officialText")}</a>
+        </div>
+      </div>
+
+      {lang !== "en" && (
+        <aside class="translation-warning" aria-label={text(locale, "common.translationWarningLabel")}>
+          <div class="wrap">
+            <span>
+              <strong>{text(locale, "common.translationWarning")}</strong>{" "}
+              {text(locale, "common.englishTerms")}
+            </span>
+          </div>
+        </aside>
+      )}
+
+    </header>
+
+    <main id="main-content">
+      <slot />
+    </main>
+
+    <aside id="no-cookie-notice" class="cookie-notice" aria-labelledby="cookie-notice-title">
+      <div>
+        <h2 id="cookie-notice-title">{text(locale, "notice.title")}</h2>
+        <p>{text(locale, "notice.body")}</p>
+        <p>{text(locale, "notice.infrastructure")}</p>
+        <a href={routeFor(lang, "privacy-cookies")}>{text(locale, "notice.readPrivacy")}</a>
+      </div>
+      <button id="dismiss-cookie-notice" type="button">{text(locale, "notice.dismiss")}</button>
+    </aside>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div>
+          <strong>{text(locale, "common.independent")}</strong>
+          <p>{text(locale, "common.childGuidance")}</p>
+          <a class="footer-credit" href="https://www.bencium.io">{text(locale, "common.footerCopy")}</a>
+        </div>
+        <nav aria-label={text(locale, "common.legalNavigation")}>
+          <a href={routeFor(lang, "terms")}>{text(locale, "common.terms")}</a>
+          <a href={routeFor(lang, "privacy-cookies")}>{text(locale, "common.privacy")}</a>
+          <a href={routeFor(lang, "disclaimer")}>{text(locale, "common.disclaimer")}</a>
+        </nav>
+      </div>
+    </footer>
+
+    <script is:inline define:vars={{ lang }}>
+      const languageKey = "eu-ai-act-language";
+      const noticeKey = "eu-ai-act-no-cookie-dismissed";
+      const languageSelect = document.getElementById("language-select");
+      languageSelect?.addEventListener("change", (event) => {
+        const nextLanguage = event.target.value;
+        try { sessionStorage.setItem(languageKey, nextLanguage); } catch {}
+        const parts = window.location.pathname.split("/").filter(Boolean);
+        parts[0] = nextLanguage;
+        window.location.assign(`/${parts.join("/")}${parts.length ? "/" : ""}${window.location.search}${window.location.hash}`);
+      });
+
+      const notice = document.getElementById("no-cookie-notice");
+      try {
+        if (sessionStorage.getItem(noticeKey) === "1") notice?.setAttribute("hidden", "");
+      } catch {}
+      document.getElementById("dismiss-cookie-notice")?.addEventListener("click", () => {
+        try { sessionStorage.setItem(noticeKey, "1"); } catch {}
+        notice?.setAttribute("hidden", "");
+      });
+    </script>
+  </body>
+</html>

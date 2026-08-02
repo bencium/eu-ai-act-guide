@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.claude/settings.local.json
+.astro/
+.vercel/
+.agent-logs/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example

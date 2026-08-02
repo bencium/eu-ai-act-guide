@@ -1,0 +1,19 @@
+---
+import { list, text, type Locale } from "../i18n/locales";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+---
+
+<article class="page-shell">
+  <p class="eyebrow">MIT · CC BY 4.0</p>
+  <h1>{text(locale, "openSource.title")}</h1>
+  {list(locale, "openSource.sections").map((paragraph, index) => (
+    <p class={index === 0 ? "lede" : undefined}>{paragraph}</p>
+  ))}
+  <div class="action-row">
+    <a class="button" href="https://github.com/bencium/eu-ai-act-guide">{text(locale, "openSource.code")}</a>
+    <a class="button secondary" href="https://eur-lex.europa.eu/content/legal-notice/legal-notice.html" rel="external">{text(locale, "openSource.legalNotice")}</a>
+    <a class="button secondary" href="https://github.com/bencium/eu-ai-act-guide/blob/main/research/2026-08-02-third-party-skills-assessment.md">{text(locale, "openSource.research")}</a>
+  </div>
+</article>
