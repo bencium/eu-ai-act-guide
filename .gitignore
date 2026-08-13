@@ -4,6 +4,7 @@ dist/
 .astro/
 .vercel/
 .agent-logs/
+scripts/skill-eval/results/
 .DS_Store
 *.log
 .env
