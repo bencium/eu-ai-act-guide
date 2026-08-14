@@ -59,6 +59,12 @@ for (const file of files) {
     if (!lower.includes(field)) problems.push(`header field missing: "${field}"`);
   }
 
+  // Runs are offline by design, so every report must say so rather than let
+  // a reader assume the law was verified live.
+  if (!/(verification was unavailable|could not be verified|pinned source register)/i.test(text)) {
+    problems.push("legal currency does not disclose that live verification did not happen");
+  }
+
   const findingIds = [...new Set(text.match(/EUAI-\d{3}/g) ?? [])];
 
   if (findingIds.length) {
@@ -84,16 +90,25 @@ for (const file of files) {
     problems.push("no parsable Status lines found");
   }
 
-  const sourceLevelLines = [...text.matchAll(/official source level[^:\n]*:\s*(.+)$/gim)]
-    .map((m) => m[1].replaceAll("*", "").trim().toLowerCase());
-  for (const line of sourceLevelLines) {
-    if (!allowedSourceLevels.some((allowed) => line.includes(allowed))) {
-      problems.push(`source level not Law/Official guidance/Voluntary code: "${line.slice(0, 60)}"`);
+  // The level may sit on the same line or in a list beneath it, since the
+  // contract requires blended source levels to be listed separately.
+  for (const match of text.matchAll(/official source level[^:\n]*:/gi)) {
+    const window = text.slice(match.index, match.index + 500).toLowerCase();
+    if (!allowedSourceLevels.some((allowed) => window.includes(allowed))) {
+      problems.push(`source level not labelled Law/Official guidance/Voluntary code at offset ${match.index}`);
     }
   }
 
+  // A denial ("nothing here states the system is compliant") is contract-
+  // required wording, not a verdict. Only flag assertions.
   for (const [label, pattern] of bannedPatterns) {
-    if (pattern.test(text)) problems.push(`banned wording: ${label}`);
+    const global = new RegExp(pattern.source, pattern.flags.includes("g") ? pattern.flags : `${pattern.flags}g`);
+    for (const match of text.matchAll(global)) {
+      const before = text.slice(Math.max(0, match.index - 160), match.index).toLowerCase();
+      if (/\b(not|nothing|never|no|cannot|neither|nor|without|refuse|refuses)\b/.test(before)) continue;
+      problems.push(`banned wording: ${label}`);
+      break;
+    }
   }
 
   for (const [label, pattern] of closingChecks) {

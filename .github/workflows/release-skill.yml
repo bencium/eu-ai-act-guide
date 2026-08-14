@@ -3,7 +3,7 @@ name: Publish reviewer skill release
 on:
   push:
     tags:
-      - "v1.0.0"
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -34,10 +34,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          VERSION="${GITHUB_REF_NAME#v}"
           gh release create "${GITHUB_REF_NAME}" \
-            public/downloads/eu-ai-act-reviewer-skill-v1.0.0.zip \
-            public/downloads/eu-ai-act-reviewer-skill-v1.0.0.sha256 \
-            public/downloads/eu-ai-act-reviewer-SKILL-v1.0.0.md \
+            "public/downloads/eu-ai-act-reviewer-skill-v${VERSION}.zip" \
+            "public/downloads/eu-ai-act-reviewer-skill-v${VERSION}.sha256" \
+            "public/downloads/eu-ai-act-reviewer-SKILL-v${VERSION}.md" \
             --verify-tag \
-            --title "EU AI Act reviewer skill v1.0.0" \
+            --title "EU AI Act reviewer skill ${GITHUB_REF_NAME}" \
             --notes "Portable, read-only EU AI Act issue-spotting skill for Codex and Claude Code. Educational use only; not legal advice."

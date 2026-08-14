@@ -2,6 +2,7 @@ import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { describeUnreadable } from "./unreadable.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const allowedHosts = new Set([
@@ -36,7 +37,12 @@ if (args.report) {
 }
 
 process.stdout.write(markdownSummary(report));
-process.exitCode = results.some((result) => result.status !== "ok") ? 1 : 0;
+// Fail on real drift. Unreadable sources alone do not fail the run, or a
+// permanently challenged portal would cry wolf weekly and hide genuine
+// changes — unless every source is unreadable, which means no coverage at all.
+const changed = results.filter((result) => result.status === "needs_human_review").length;
+const unavailable = results.filter((result) => result.status === "unavailable").length;
+process.exitCode = changed > 0 || unavailable === results.length ? 1 : 0;
 
 async function checkSource(source, monitor) {
   const url = monitor.url ?? source.url;
@@ -53,6 +59,16 @@ async function checkSource(source, monitor) {
       etag: response.headers.get("etag"),
       last_modified: response.headers.get("last-modified")
     });
+
+    // A response we cannot read is a monitoring gap, never evidence that the
+    // legal text changed. Comparing hashes against a challenge page reports
+    // every allowlisted source as "changed" and buries real drift.
+    const unreadable = describeUnreadable(response, data);
+    if (unreadable) {
+      result.status = "unavailable";
+      result.problems.push(`${unreadable}: the source could not be read, so this run proves nothing about whether it changed`);
+      return result;
+    }
 
     if (monitor.expected_content_type && !contentType.toLowerCase().startsWith(monitor.expected_content_type.toLowerCase())) {
       result.problems.push(`content type changed: expected ${monitor.expected_content_type}, got ${contentType || "<none>"}`);
@@ -87,6 +103,7 @@ async function checkSource(source, monitor) {
   if (result.problems.length) result.status = "needs_human_review";
   return result;
 }
+
 
 async function fetchAllowlisted(startUrl) {
   let current = validateUrl(startUrl);
@@ -165,10 +182,15 @@ function markdownSummary(report) {
     "",
     "This check never changes legal explanations or the source register.",
     "Any drift requires a human review and a separate reviewed change.",
+    "",
+    "`REVIEW` means the readable content differs from the pinned record.",
+    "`UNAVAILABLE` means the source could not be read at all, which is a",
+    "monitoring gap rather than evidence about the law.",
     ""
   ];
+  const label = { ok: "OK", unavailable: "UNAVAILABLE", needs_human_review: "REVIEW" };
   for (const result of report.results) {
-    lines.push(`- ${result.status === "ok" ? "OK" : "REVIEW"}: \`${result.id}/${result.check_id}\``);
+    lines.push(`- ${label[result.status] ?? "REVIEW"}: \`${result.id}/${result.check_id}\``);
     for (const problem of result.problems) lines.push(`  - ${problem}`);
   }
   return `${lines.join("\n")}\n`;
