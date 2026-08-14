@@ -6,11 +6,11 @@ Last updated: 2 August 2026
 
 The guide is built and currently available at:
 
-- Live domain: <https://aiact.bencium.io/en/>
+- Live domain: the production custom domain configured in the Vercel project (kept out of this repository by policy; also supplied to builds as the `SITE_URL` environment variable)
 - Temporary Vercel address: <https://eu-ai-act-guide.vercel.app/en/>
 - Public repository: <https://github.com/bencium/eu-ai-act-guide>
 - Draft pull request: <https://github.com/bencium/eu-ai-act-guide/pull/1>
-- Reviewer skill page: <https://aiact.bencium.io/en/skill/>
+- Reviewer skill page: `/en/skill/` on the live domain
 
 Important: the live Vercel build came from `agent/initial-release`, but pull request #1 is still a draft and has not been merged. The `main` branch currently contains only the initial empty commit. Review and merge the pull request before treating the repository's `main` branch as the released source.
 
@@ -114,9 +114,9 @@ The same package was successfully invoked in Codex and Claude Code. It did not e
 
 Downloads:
 
-- ZIP: <https://aiact.bencium.io/downloads/eu-ai-act-reviewer-skill-v1.0.0.zip>
-- Raw `SKILL.md`: <https://aiact.bencium.io/downloads/eu-ai-act-reviewer-SKILL-v1.0.0.md>
-- Checksum file: <https://aiact.bencium.io/downloads/eu-ai-act-reviewer-skill-v1.0.0.sha256>
+- ZIP: `/downloads/eu-ai-act-reviewer-skill-v1.0.0.zip` on the live domain
+- Raw `SKILL.md`: `/downloads/eu-ai-act-reviewer-SKILL-v1.0.0.md` on the live domain
+- Checksum file: `/downloads/eu-ai-act-reviewer-skill-v1.0.0.sha256` on the live domain
 
 Verified ZIP details:
 
@@ -190,7 +190,7 @@ The following checks passed locally and in GitHub Actions:
 - GitHub pull-request check `verify` passed.
 - English, German and Irish layouts and translation warnings were inspected.
 - The three-guide main-page interaction, focus movement and no-cookie notice were tested.
-- `https://aiact.bencium.io/en/` returned HTTP 200 through Cloudflare and Vercel on 2 August 2026.
+- The live domain's `/en/` page returned HTTP 200 through Cloudflare and Vercel on 2 August 2026.
 
 Useful commands:
 
@@ -244,7 +244,7 @@ The explicit preview address may require a Vercel sign-in. The custom domain and
 1. Review the live wording, legal boundaries and design alongside draft pull request #1.
 2. If approved, mark the pull request ready and merge it into `main`.
 3. Confirm that Vercel automatically creates a passing production deployment from the merged `main` commit. Do not treat the earlier manual branch deployment as proof of this automatic path.
-4. Re-check `https://aiact.bencium.io/en/`, several translated pages, security headers and all three tools after the `main` deployment.
+4. Re-check the live domain's `/en/` page, several translated pages, security headers and all three tools after the `main` deployment.
 5. Create tag `v1.0.0` from the merged release commit and publish the matching GitHub release. Confirm its ZIP, raw `SKILL.md` and checksum match the website files.
 6. Confirm that GitHub Actions is allowed to create or update the single legal-source-change issue.
 7. Keep the unreviewed-translation and educational warnings visible until qualified legal and native-language reviewers approve replacement wording.

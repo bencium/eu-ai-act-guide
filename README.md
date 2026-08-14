@@ -1,6 +1,6 @@
 # The EU AI Act Guide
 
-An independent educational guide for non-technical people at [aiact.bencium.io](https://aiact.bencium.io). It is not an official EU website and does not provide legal advice or legal clearance.
+An independent educational guide for non-technical people. It is not an official EU website and does not provide legal advice or legal clearance.
 
 The main page contains three short tools and shows only the one a visitor chooses: what the EU AI Act may mean for a person, whether one professional AI use may be covered, and which Article 50 content-marking or disclosure duty may be relevant. It has no backend, accounts, forms, analytics, advertising, or runtime AI service.
 

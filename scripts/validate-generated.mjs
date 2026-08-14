@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const dist = path.join(root, "dist");
+const site = (process.env.SITE_URL ?? "http://localhost:4321").replace(/\/$/, "");
 const localeDir = path.join(root, "src", "i18n", "locales");
 const languages = [
   "bg", "es", "cs", "da", "de", "et", "el", "en", "fr", "ga", "hr", "it",
@@ -25,7 +26,7 @@ for (const language of languages) {
     const html = await readFile(htmlPath, "utf8");
     const route = `/${language}/${slug ? `${slug}/` : ""}`;
     requireIncludes(html, `<html lang="${language}">`, route);
-    requireIncludes(html, `href="https://aiact.bencium.io${route}"`, `${route}: canonical`);
+    requireIncludes(html, `href="${site}${route}"`, `${route}: canonical`);
     requireIncludes(html, locales[language]["common.independent"], `${route}: independent statement`);
     requireIncludes(html, locales[language]["common.notOfficial"], `${route}: unofficial statement`);
     requireIncludes(html, locales[language]["common.notLegalAdvice"], `${route}: disclaimer statement`);
