@@ -135,7 +135,7 @@
   "skill.metaDescription": "Niżżel il-ħila indipendenti eu-ai-act-reviewer għal Codex u Claude Code, b'fajl ZIP b'numru tal-verżjoni, il-fajl oriġinali SKILL.md u valur ta' kontroll SHA-256.",
   "skill.title": "Ħila tar-reviżur tal-Att tal-UE dwar l-IA",
   "skill.intro": "Reviżur portabbli u li jaqra biss, maħsub għall-esperjenzi tal-utenti, il-kontenut pubbliku u l-bażijiet tal-kodiċi. Jiġbed l-attenzjoni għal dispożizzjonijiet li jistgħu jkunu rilevanti, nuqqasijiet fl-evidenza, dati u deċiżjonijiet li jridu jieħdu n-nies. Qatt ma jagħti deċiżjoni legali finali.",
-  "skill.version": "Verżjoni 1.0.1",
+  "skill.version": "Verżjoni 1.0.2",
   "skill.releaseDate": "Maħruġa fit-14 ta' Awwissu 2026",
   "skill.sizeLabel": "Daqs tal-arkivju",
   "skill.hashLabel": "Valur ta' kontroll SHA-256",

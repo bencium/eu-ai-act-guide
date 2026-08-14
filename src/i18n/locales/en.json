@@ -135,7 +135,7 @@
   "skill.metaDescription": "Download the independent eu-ai-act-reviewer skill for Codex and Claude Code, with a versioned ZIP, raw SKILL.md and SHA-256 checksum.",
   "skill.title": "EU AI Act reviewer skill",
   "skill.intro": "A portable, read-only reviewer for user journeys, public content and codebases. It flags potentially relevant provisions, evidence gaps, dates and human decisions. It never issues a final legal verdict.",
-  "skill.version": "Version 1.0.1",
+  "skill.version": "Version 1.0.2",
   "skill.releaseDate": "Released 14 August 2026",
   "skill.sizeLabel": "Archive size",
   "skill.hashLabel": "SHA-256 checksum",

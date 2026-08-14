@@ -135,7 +135,7 @@
   "skill.metaDescription": "Stáhněte si nezávislou dovednost eu-ai-act-reviewer pro Codex a Claude Code s verzí ZIP, surovým SKILL.md a kontrolním součtem SHA-256.",
   "skill.title": "Dovednost recenzenta EU AI Act",
   "skill.intro": "Přenosný, pouze pro čtení recenzent uživatelských cest, veřejného obsahu a kódových základů. Upozorňuje na potenciálně relevantní ustanovení, mezery v důkazech, data a lidská rozhodnutí. Nikdy nevydá konečný právní verdikt.",
-  "skill.version": "Verze 1.0.1",
+  "skill.version": "Verze 1.0.2",
   "skill.releaseDate": "Vydáno 14. srpna 2026",
   "skill.sizeLabel": "Velikost archivu",
   "skill.hashLabel": "SHA-256 kontrolní součet",

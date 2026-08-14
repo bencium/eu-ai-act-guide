@@ -30,7 +30,7 @@ const closingChecks = [
   ["human decisions", /human decisions/i],
   ["evidence still needed", /evidence still needed/i],
   ["legal signposts", /signpost/i],
-  ["limitations statement", /(not legal advice|educational)/i],
+  ["not-legal-advice statement", /not legal advice/i],
 ];
 // Only assertive verdicts are banned; disclaimers like "I have not
 // classified the system as compliant or non-compliant" are contract-required.
@@ -117,6 +117,19 @@ for (const file of files) {
 
   if (!findingIds.length && !lower.includes("no trigger found in the supplied evidence")) {
     problems.push("zero findings but no per-trigger 'no trigger found' statement");
+  }
+
+  // A live disclosure duty must point at the official icons page, since the
+  // icon set changes and must never be described from memory. A duty that was
+  // tested and rejected needs no icon link.
+  const blocks = text.split(/(?=EUAI-\d{3})/).slice(1);
+  const liveDisclosureDuty = blocks.some((block) => {
+    if (!/article 50\((1|3|4|5)\)/i.test(block)) return false;
+    const status = block.match(/\bstatus\b[^:\n]*:\s*\**\s*([a-z ]+)/i)?.[1]?.trim().toLowerCase() ?? "";
+    return status.startsWith("likely relevant") || status.startsWith("possibly relevant");
+  });
+  if (liveDisclosureDuty && !text.includes("eu-icons-labelling-ai-generated-content")) {
+    notes.push("reports a live Article 50 disclosure duty without linking the official icons page");
   }
 
   const scenarioRaw = await readFile(path.join(scenarioDir, file), "utf8").catch(() => "");

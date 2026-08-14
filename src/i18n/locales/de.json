@@ -135,7 +135,7 @@
   "skill.metaDescription": "Laden Sie den unabhängigen Skill eu-ai-act-reviewer für Codex und Claude Code herunter, mit versionierter ZIP-Datei, roher SKILL.md und SHA-256-Prüfsumme.",
   "skill.title": "Prüfungs-Skill zum EU-KI-Gesetz",
   "skill.intro": "Ein portabler, schreibgeschützter Prüfer für Nutzerwege, öffentliche Inhalte und Codebasen. Er kennzeichnet möglicherweise relevante Bestimmungen, Beweislücken, Daten und menschliche Entscheidungen. Er erstellt niemals eine abschließende rechtliche Entscheidung.",
-  "skill.version": "Version 1.0.1",
+  "skill.version": "Version 1.0.2",
   "skill.releaseDate": "Veröffentlicht am 14. August 2026",
   "skill.sizeLabel": "Archivgröße",
   "skill.hashLabel": "SHA-256-Prüfsumme",

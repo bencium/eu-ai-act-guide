@@ -135,7 +135,7 @@
   "skill.metaDescription": "Descarga la habilidad independiente eu-ai-act-reviewer para Codex y Claude Code, con un código postal versionado, SKILL.md en bruto y suma de comprobación SHA-256.",
   "skill.title": "Habilidad revisora de la Ley de IA de la UE",
   "skill.intro": "Un revisor portátil de solo lectura para los recorridos de usuario, contenido público y bases de código. Señala disposiciones potencialmente relevantes, lagunas de evidencia, fechas y decisiones humanas. Nunca emite un veredicto legal definitivo.",
-  "skill.version": "Versión 1.0.1",
+  "skill.version": "Versión 1.0.2",
   "skill.releaseDate": "Publicado el 14 de agosto de 2026",
   "skill.sizeLabel": "Tamaño del archivo",
   "skill.hashLabel": "Suma de comprobación SHA-256",

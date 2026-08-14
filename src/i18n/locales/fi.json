@@ -135,7 +135,7 @@
   "skill.metaDescription": "Lataa riippumaton eu-ai-act-reviewer-taito Codexia ja Claude Codea varten. Lataus sisältää versioidun ZIP-tiedoston, alkuperäisen SKILL.md-tiedoston ja SHA-256-tarkistussumman.",
   "skill.title": "EU:n tekoälysäädöksen tarkistustaito",
   "skill.intro": "Siirrettävä, vain tietoja lukeva tarkistaja käyttäjäpolkuja, julkista sisältöä ja koodikantoja varten. Se nostaa esiin mahdollisesti merkityksellisiä säännöksiä, puuttuvaa näyttöä, päivämääriä ja ihmisen päätöksiä. Se ei koskaan anna lopullista oikeudellista ratkaisua.",
-  "skill.version": "Versio 1.0.1",
+  "skill.version": "Versio 1.0.2",
   "skill.releaseDate": "Julkaistu 14. elokuuta 2026",
   "skill.sizeLabel": "Arkiston koko",
   "skill.hashLabel": "SHA-256-tarkistussumma",
