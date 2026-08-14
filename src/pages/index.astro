@@ -1,5 +1,7 @@
 ---
 import { languages } from "../i18n/languages";
+
+const site = Astro.site ?? new URL("http://localhost:4321");
 ---
 
 <!doctype html>
@@ -10,11 +12,11 @@ import { languages } from "../i18n/languages";
     <meta name="robots" content="noindex,follow" />
     <meta name="description" content="Choose one of the EU's 24 official languages for The EU AI Act Guide." />
     <title>Choose a language — The EU AI Act Guide</title>
-    <link rel="canonical" href="https://aiact.bencium.io/" />
+    <link rel="canonical" href={new URL("/", site)} />
     {languages.map((language) => (
-      <link rel="alternate" hreflang={language.code} href={`https://aiact.bencium.io/${language.code}/`} />
+      <link rel="alternate" hreflang={language.code} href={new URL(`/${language.code}/`, site)} />
     ))}
-    <link rel="alternate" hreflang="x-default" href="https://aiact.bencium.io/" />
+    <link rel="alternate" hreflang="x-default" href={new URL("/", site)} />
     <style>
       body { max-width: 54rem; margin: 4rem auto; padding: 1rem; font-family: system-ui, sans-serif; line-height: 1.5; }
       ul { columns: 2; padding-left: 1.25rem; }
