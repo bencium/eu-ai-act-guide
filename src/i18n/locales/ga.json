@@ -135,7 +135,7 @@
   "skill.metaDescription": "Íoslódáil an scil neamhspleách eu-ai-act-reviewer do Codex agus Claude Code, le ZIP leaganaithe, SKILL.md amh agus seiceáil SHA-256.",
   "skill.title": "Scil athbhreithnithe an Achta AI AE",
   "skill.intro": "Athbhreithneoir iniompartha, inléite amháin do thurais úsáideora, ábhar poiblí agus codebases. Léiríonn sé forálacha a d'fhéadfadh a bheith ábhartha, bearnaí fianaise, dátaí agus cinntí daonna. Ní eisíonn sé fíorasc dlíthiúil deiridh riamh.",
-  "skill.version": "Leagan 1.0.1",
+  "skill.version": "Leagan 1.0.2",
   "skill.releaseDate": "Foilsithe 14 Lúnasa 2026",
   "skill.sizeLabel": "Méid na cartlainne",
   "skill.hashLabel": "Seicshuim SHA-256",

@@ -135,7 +135,7 @@
   "skill.metaDescription": "Töltsd le az önálló eu-ai-act-reviewer képességet Codex és Claude Code eléréséhez, verziós ZIP-tel, nyers SKILL.md-vel és SHA-256 ellenőrzőösszeggel.",
   "skill.title": "EU AI Act bírálói készsége",
   "skill.intro": "Hordozható, csak olvasható értékelő felhasználói utakhoz, nyilvános tartalomhoz és kódbázisokhoz. Jelöli a potenciálisan releváns rendelkezéseket, bizonyítékhiányokat, dátumokat és emberi döntéseket. Soha nem hozza ki végleges jogi ítéletet.",
-  "skill.version": "1.0.1 verzió",
+  "skill.version": "1.0.2 verzió",
   "skill.releaseDate": "Megjelenés: 14 augusztus 2026",
   "skill.sizeLabel": "Archívum mérete",
   "skill.hashLabel": "SHA-256 ellenőrző összeg",

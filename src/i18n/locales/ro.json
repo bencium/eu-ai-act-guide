@@ -135,7 +135,7 @@
   "skill.metaDescription": "Descărcați instrumentul independent eu-ai-act-reviewer pentru Codex și Claude Code, cu arhivă ZIP cu versiune, fișier SKILL.md brut și sumă de control SHA-256.",
   "skill.title": "Instrument pentru verificarea Regulamentului UE privind AI",
   "skill.intro": "Un instrument portabil, doar pentru citire, care verifică traseele utilizatorilor, conținutul public și bazele de cod. Semnalează prevederi posibil relevante, dovezi lipsă, date și decizii umane. Nu emite niciodată un verdict juridic final.",
-  "skill.version": "Versiunea 1.0.1",
+  "skill.version": "Versiunea 1.0.2",
   "skill.releaseDate": "Publicat la 14 august 2026",
   "skill.sizeLabel": "Dimensiunea arhivei",
   "skill.hashLabel": "Sumă de control SHA-256",

@@ -135,7 +135,7 @@
   "skill.metaDescription": "Preuzmite neovisnu eu-ai-act-reviewer vještinu za Codex i Claude kod, s verziranim poštanskim poštom, sirovim SKILL.md i SHA-256 kontrolnim zbrojem.",
   "skill.title": "Vještina recenzenta EU AI Act-a",
   "skill.intro": "Prijenosni, samo za čitanje recenzent korisničkih putovanja, javnog sadržaja i kodnih baza. Označava potencijalno relevantne odredbe, nedostatke u dokazima, datume i ljudske odluke. Nikada ne donosi konačnu pravnu presudu.",
-  "skill.version": "Verzija 1.0.1",
+  "skill.version": "Verzija 1.0.2",
   "skill.releaseDate": "Objavljeno 14. kolovoza 2026.",
   "skill.sizeLabel": "Veličina arhiva",
   "skill.hashLabel": "SHA-256 kontrolni zbroj",

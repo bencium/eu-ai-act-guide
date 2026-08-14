@@ -135,7 +135,7 @@
   "skill.metaDescription": "Lejupielādējiet neatkarīgo eu-ai-act-reviewer prasmi Codex un Claude Code, ar versiju ZIP, neapstrādātu SKILL.md un SHA-256 kontrolsummu.",
   "skill.title": "ES Mākslīgā intelekta likuma pārskatītāja prasmes",
   "skill.intro": "Pārnēsājams, tikai lasāms recenzents lietotāju ceļojumiem, publiskajam saturam un koda bāzēm. Tas iezīmē potenciāli nozīmīgus noteikumus, pierādījumu trūkumus, datumus un cilvēku lēmumus. Tā nekad nepieņem galīgu juridisku spriedumu.",
-  "skill.version": "Versija 1.0.1",
+  "skill.version": "Versija 1.0.2",
   "skill.releaseDate": "Izlaists 14. augustā 2026",
   "skill.sizeLabel": "Arhīva apjoms",
   "skill.hashLabel": "SHA-256 kontrolsumma",

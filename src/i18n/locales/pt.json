@@ -135,7 +135,7 @@
   "skill.metaDescription": "Transfira a ferramenta independente eu-ai-act-reviewer para o Codex e o Claude Code, com um ZIP com versão, o ficheiro SKILL.md original e a soma de verificação SHA-256.",
   "skill.title": "Ferramenta de revisão do Regulamento da UE sobre a IA",
   "skill.intro": "Uma ferramenta portátil e de leitura apenas para percursos de utilizadores, conteúdos públicos e bases de código. Assinala disposições que podem ser relevantes, lacunas nas provas, datas e decisões humanas. Nunca emite uma conclusão jurídica definitiva.",
-  "skill.version": "Versão 1.0.1",
+  "skill.version": "Versão 1.0.2",
   "skill.releaseDate": "Publicado em 14 de agosto de 2026",
   "skill.sizeLabel": "Tamanho do ficheiro",
   "skill.hashLabel": "Soma de verificação SHA-256",

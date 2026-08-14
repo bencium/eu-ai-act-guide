@@ -135,7 +135,7 @@
   "skill.metaDescription": "Téléchargez la compétence indépendante eu-ai-act-reviewer pour Codex et Claude Code, avec un ZIP versionné, le SKILL.md brut et une somme de contrôle SHA-256.",
   "skill.title": "Compétence de révision de la législation européenne sur l’IA",
   "skill.intro": "Un outil de révision portable, en lecture seule, pour les parcours utilisateurs, les contenus publics et les bases de code. Il signale les dispositions potentiellement pertinentes, les lacunes de preuve, les dates et les décisions humaines. Il ne rend jamais de verdict juridique final.",
-  "skill.version": "Version 1.0.1",
+  "skill.version": "Version 1.0.2",
   "skill.releaseDate": "Publié le 14 août 2026",
   "skill.sizeLabel": "Taille de l’archive",
   "skill.hashLabel": "Somme de contrôle SHA-256",
