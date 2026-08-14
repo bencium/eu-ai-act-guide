@@ -10,3 +10,4 @@ scripts/skill-eval/results/
 .env
 .env.*
 !.env.example
+FORME.md
