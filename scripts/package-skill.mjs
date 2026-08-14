@@ -6,7 +6,7 @@ import { buildStoredZip } from "./lib/zip.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillName = "eu-ai-act-reviewer";
-const version = "1.0.0";
+const version = "1.0.1";
 const skillDir = path.join(root, skillName);
 const downloadsDir = path.join(root, "public", "downloads");
 const archiveFile = `${skillName}-skill-v${version}.zip`;
@@ -45,7 +45,7 @@ await writeFile(
   path.join(root, "src", "data", "skill-release.json"),
   `${JSON.stringify({
     version,
-    releaseDate: "2026-08-02",
+    releaseDate: "2026-08-14",
     archiveFile,
     rawFile,
     checksumFile,

@@ -1,9 +1,9 @@
 {
-  "version": "1.0.0",
-  "releaseDate": "2026-08-02",
-  "archiveFile": "eu-ai-act-reviewer-skill-v1.0.0.zip",
-  "rawFile": "eu-ai-act-reviewer-SKILL-v1.0.0.md",
-  "checksumFile": "eu-ai-act-reviewer-skill-v1.0.0.sha256",
-  "archiveBytes": 36383,
-  "sha256": "13e7fb42697e166fc408853803ca264da8717eafd8cca7c6f57149a176969c5e"
+  "version": "1.0.1",
+  "releaseDate": "2026-08-14",
+  "archiveFile": "eu-ai-act-reviewer-skill-v1.0.1.zip",
+  "rawFile": "eu-ai-act-reviewer-SKILL-v1.0.1.md",
+  "checksumFile": "eu-ai-act-reviewer-skill-v1.0.1.sha256",
+  "archiveBytes": 39608,
+  "sha256": "7b1b4f3279c37b99049aeadb98966ebb6c929b705d11cf44b68715b1b9d1d0be"
 }

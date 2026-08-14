@@ -60,12 +60,10 @@ requireIncludes(rootHtml, 'content="noindex,follow"', "/: noindex,follow");
 requireIncludes(rootHtml, "navigator.languages", "/: local browser-language check");
 if (/geolocation|geoip|ipapi/i.test(rootHtml)) throw new Error("Root redirect must not use geolocation");
 
-for (const required of [
-  "eu-ai-act-reviewer-skill-v1.0.0.zip",
-  "eu-ai-act-reviewer-skill-v1.0.0.sha256",
-  "eu-ai-act-reviewer-SKILL-v1.0.0.md",
-  "source-register.json"
-]) {
+const skillRelease = JSON.parse(await readFile(path.join(root, "src", "data", "skill-release.json"), "utf8"));
+const skillDownloads = [skillRelease.archiveFile, skillRelease.checksumFile, skillRelease.rawFile];
+
+for (const required of [...skillDownloads, "source-register.json"]) {
   const publishedPath = required === "source-register.json"
     ? path.join(dist, required)
     : path.join(dist, "downloads", required);
@@ -73,11 +71,9 @@ for (const required of [
 }
 
 const skillHtml = await readFile(path.join(dist, "en", "skill", "index.html"), "utf8");
-for (const required of [
-  "/downloads/eu-ai-act-reviewer-skill-v1.0.0.zip",
-  "/downloads/eu-ai-act-reviewer-skill-v1.0.0.sha256",
-  "/downloads/eu-ai-act-reviewer-SKILL-v1.0.0.md"
-]) requireIncludes(skillHtml, required, "/en/skill/: published download");
+for (const required of skillDownloads) {
+  requireIncludes(skillHtml, `/downloads/${required}`, "/en/skill/: published download");
+}
 
 const visualFiles = [
   path.join(dist, "favicon.svg"),
